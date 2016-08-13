@@ -6,11 +6,15 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.IntWritable;
 
 public class CCReducer extends Reducer<Text, IntWritable, Text, IntWritable>{
-	private IntWritable output = new IntWritable(1);
+	private IntWritable output = new IntWritable();
 	
 	public void reduce(Text key, Iterable<IntWritable> value, Context context ) throws IOException, InterruptedException
 	{
-		int count = 1;
+		int count = 0;
+		for(IntWritable i : value)
+		{
+			count = i.get();
+		}
 		output.set(count);
 		context.write(key, output);
 	}

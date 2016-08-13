@@ -25,7 +25,7 @@ public class CCDriver {
 	FileOutputFormat.setOutputPath(job, new Path(args[1]));
 	job.setMapperClass(CCMapper.class);
 
-	//job.setReducerClass(CCReducer.class);
+	job.setReducerClass(CCReducer.class);
 	job.setNumReduceTasks(1);
 	job.setOutputKeyClass(Text.class);
 	job.setOutputValueClass(IntWritable.class);
