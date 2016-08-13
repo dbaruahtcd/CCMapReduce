@@ -2,6 +2,7 @@ package org.scss.complexity;
 
 import java.io.IOException;
 
+import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -11,7 +12,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 
 public class CCMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
-	private static IntWritable complexityCount = new IntWritable(1);
+	private static IntWritable complexityCount = null;
 	private Text result = new Text();
 	
 	public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException
@@ -29,16 +30,16 @@ public class CCMapper extends Mapper<LongWritable, Text, Text, IntWritable>{
 		String filePathString = ((FileSplit) context.getInputSplit()).getPath().toString();*/
 		
 		//correct
-		/*Path filePath = ((FileSplit) context.getInputSplit()).getPath();
-		String filePathString = ((FileSplit) context.getInputSplit()).getPath().toString();*/
+		Path filePath = ((FileSplit) context.getInputSplit()).getPath();
+		String filePathString = ((FileSplit) context.getInputSplit()).getPath().toString();
 		
-		
+		complexityCount = new IntWritable(CComplexity.getComplexity(filePathString));
 		/*InputSplit inName = (InputSplit)context.getInputSplit();
 		String name = inName.*/
 		
-		String fileName = ((FileSplit) context.getInputSplit()).getPath().getName();
+		//String fileName = ((FileSplit) context.getInputSplit()).getPath().getName();
 		
-		result.set(fileName);
+		result.set(filePathString);
 		context.write(result, complexityCount);
 		
 		
